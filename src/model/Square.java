@@ -1,7 +1,6 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -65,8 +64,8 @@ public class Square extends JComponent {
 
     public void capture(Piece p) {
         Piece k = getOccupyingPiece();
-        if (k.getColor() == 0) b.Bpieces.remove(k);
-        if (k.getColor() == 1) b.Wpieces.remove(k);
+        if (k.getColor().getValue() == 0) b.Bpieces.remove(k);
+        if (k.getColor().getValue() == 1) b.Wpieces.remove(k);
         this.occupyingPiece = p;
     }
 
@@ -95,4 +94,10 @@ public class Square extends JComponent {
         return result;
     }
 
+
+    public void setOccupyingPiece(Piece capturingPiece) {
+    }
+
+    public Component getPosition() {
+    }
 }

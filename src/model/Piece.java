@@ -1,5 +1,7 @@
 package model;
 
+import model.PieceColor.PieceColor;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -10,11 +12,11 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public abstract class Piece {
-    private final int color;
+    private final PieceColor color;
     private Square currentSquare;
     private BufferedImage img;
     
-    public Piece(int color, Square initSq, String img_file) {
+    public Piece(PieceColor color, Square initSq, String img_file) {
         this.color = color;
         this.currentSquare = initSq;
         
@@ -31,8 +33,12 @@ public abstract class Piece {
         Piece occup = fin.getOccupyingPiece();
         
         if (occup != null) {
-            if (occup.getColor() == this.color) return false;
-            else fin.capture(this);
+            if (occup.getColor().getValue() == this.color.getValue()){
+                return false;
+            }
+            else {
+                fin.capture(this);
+            }
         }
         
         currentSquare.removePiece();
@@ -49,7 +55,7 @@ public abstract class Piece {
         this.currentSquare = sq;
     }
     
-    public int getColor() {
+    public PieceColor getColor() {
         return color;
     }
     

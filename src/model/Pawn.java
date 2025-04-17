@@ -1,12 +1,14 @@
 package model;
 
+import model.PieceColor.PieceColor;
+
 import java.util.List;
 import java.util.LinkedList;
 
 public class Pawn extends Piece {
     private boolean wasMoved;
     
-    public Pawn(int color, Square initSq, String img_file) {
+    public Pawn(PieceColor color, Square initSq, String img_file) {
         super(color, initSq, img_file);
     }
     
@@ -25,7 +27,7 @@ public class Pawn extends Piece {
         
         int x = this.getPosition().getXNum();
         int y = this.getPosition().getYNum();
-        int c = this.getColor();
+        int c = this.getColor().getValue();
         
         if (c == 0) {
             if (!wasMoved) {

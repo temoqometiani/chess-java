@@ -1,11 +1,13 @@
 package model;
 
+import model.PieceColor.PieceColor;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Knight extends Piece {
 
-    public Knight(int color, Square initSq, String img_file) {
+    public Knight(PieceColor color, Square initSq, String img_file) {
         super(color, initSq, img_file);
     }
 
