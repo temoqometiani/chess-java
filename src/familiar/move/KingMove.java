@@ -24,8 +24,8 @@ public class KingMove implements StrategyMove {
         Square[][] board = chessBoard.getSquareArray();
 
         Square position = king.getPosition();
-        int x = position.getXNum();
-        int y = position.getYNum();
+        int x = position.getX();
+        int y = position.getY();
 
 
         for (int i = 1; i > -2; i--) {

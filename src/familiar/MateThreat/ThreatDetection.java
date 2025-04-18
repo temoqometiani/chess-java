@@ -15,7 +15,7 @@ public class ThreatDetection implements Threatfinder{
         return null;
     }
     @Override
-    public boolean isSquareUnderTheThreat(Square square, PieceColor color) {
+    public boolean isSquareUnderThreat(Square square, PieceColor color) {
         return false;
     }
 }

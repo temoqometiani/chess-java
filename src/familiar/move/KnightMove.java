@@ -24,8 +24,8 @@ public class KnightMove implements StrategyMove {
         Square position = knight.getPosition();
 
 
-        int x = position.getXNum();
-        int y = position.getYNum();
+        int x = position.getX();
+        int y = position.getY();
 
         for (int i = 2; i > -3; i--) {
             for (int j = 2; j > -3; j--) {

@@ -3,17 +3,94 @@ package model;
 import model.PieceColor.PieceColor;
 import model.King;
 
+
 import java.util.LinkedList;
+import java.util.List;
 
 public class Board {
     private final Square[][] board;
-    final LinkedList<Piece> Bpieces = new LinkedList<>();
-    final LinkedList<Piece> Wpieces = new LinkedList<>();
-    private final CheckmateDetector cmd;
 
+    private final LinkedList<Piece> whitePieces = new LinkedList<>();
+
+    private final LinkedList<Piece> blackPieces = new LinkedList<>();
+
+    public Piece getCurrPiece() {
+        return currPiece;
+    }
+
+    public static String getResourcesBbishopPng() {
+        return RESOURCES_BBISHOP_PNG;
+    }
+
+    public static String getResourcesBknightPng() {
+        return RESOURCES_BKNIGHT_PNG;
+    }
+
+    public static String getResourcesBkingPng() {
+        return RESOURCES_BKING_PNG;
+    }
+
+    public static String getResourcesWbishopPng() {
+        return RESOURCES_WBISHOP_PNG;
+    }
+
+    public static String getResourcesBqueenPng() {
+        return RESOURCES_BQUEEN_PNG;
+    }
+
+    public static String getResourcesBpawnPng() {
+        return RESOURCES_BPAWN_PNG;
+    }
+
+    public static String getResourcesBrookPng() {
+        return RESOURCES_BROOK_PNG;
+    }
+
+    public static String getResourcesWkingPng() {
+        return RESOURCES_WKING_PNG;
+    }
+
+    public static String getResourcesWknightPng() {
+        return RESOURCES_WKNIGHT_PNG;
+    }
+
+    public static String getResourcesWrookPng() {
+        return RESOURCES_WROOK_PNG;
+    }
+
+    public LinkedList<Piece> getBlackPieces() {
+        return blackPieces;
+    }
+
+    public LinkedList<Piece> getWhitePieces() {
+        return whitePieces;
+    }
+
+    public Square[][] getBoard() {
+        return board;
+    }
+
+    public static String getResourcesWpawnPng() {
+        return RESOURCES_WPAWN_PNG;
+    }
+
+    public static String getResourcesWqueenPng() {
+        return RESOURCES_WQUEEN_PNG;
+    }
+
+    public void setCurrPiece(Piece currPiece) {
+        this.currPiece = currPiece;
+    }
+
+    public void setWhiteTurn(boolean whiteTurn) {
+        this.whiteTurn = whiteTurn;
+    }
+
+    public boolean isWhiteTurn() {
+        return whiteTurn;
+    }
 
     private boolean whiteTurn = true;
-
     private Piece currPiece;
 
 
@@ -34,32 +111,79 @@ public class Board {
         board = new Square[8][8];
         initializeBoardSquares();
         initializePieces();
-        cmd = new CheckmateDetector(this, Wpieces, Bpieces, getWhiteKing(), getBlackKing());
     }
 
-    private void initializeBoardSquares() {
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                PieceColor color = ((x + y) % 2 == 0) ? PieceColor.WHITE : PieceColor.BLACK;
-                board[y][x] = new Square(board,color.getValue(), x, y);
-            }
+    public Square[][] getSquareArray() {
+        return board;
+    }
+
+    public void toggleTurn() {
+        whiteTurn = !whiteTurn;
+    }
+
+    public boolean getTurn() {
+        return whiteTurn;
+    }
+
+    public void capturePiece(Square square, Piece capturingPiece) {
+        Piece capturedPiece = square.getOccupyingPiece();
+        if (capturedPiece != null) {
+            if (capturedPiece.getColor() == PieceColor.BLACK) blackPieces.remove(capturedPiece);
+            else whitePieces.remove(capturedPiece);
         }
+        square.setOccupyingPiece(capturingPiece);
+    }
+
+
+    public King getWhiteKing() {
+        return (King) whitePieces.stream().
+                                  filter(x -> x instanceof King).findFirst().get();
+    }
+
+    public King getBlackKing() {
+        return (King) blackPieces.stream()
+                                 .filter(x -> x instanceof King).findFirst().get();
+    }
+
+    public boolean isSquareUnderThreat(Square position, PieceColor color){
+
+        return switch (color) {
+            case WHITE -> blackPieces.stream()
+                    .anyMatch(piece -> piece.getLegalMoves(this).contains(position));
+            case BLACK -> whitePieces.stream()
+                    .anyMatch(piece -> piece.getLegalMoves(this).contains(position));
+        };
+    }
+
+
+    public Square getSquare(String notation) {
+        if (notation.length() != 2) {
+            throw new IllegalArgumentException("Invalid square notation: " + notation);
+        }
+
+        char file = notation.charAt(0);
+        char rank = notation.charAt(1);
+        int x = file - 'a';
+        int y = 8 - Character.getNumericValue(rank); // e.g. '2' = 6
+
+        if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+            throw new IllegalArgumentException("Invalid square position: " + notation);
+        }
+
+        return board[y][x];
     }
 
     private void initializePieces() {
-        // Add pawns
         for (int x = 0; x < 8; x++) {
             board[1][x].put(new Pawn(PieceColor.BLACK, board[1][x], RESOURCES_BPAWN_PNG));
             board[6][x].put(new Pawn(PieceColor.WHITE, board[6][x], RESOURCES_WPAWN_PNG));
         }
 
-        // Add kings and queens
         board[0][4].put(new King(PieceColor.BLACK, board[0][4], RESOURCES_BKING_PNG));
         board[7][4].put(new King(PieceColor.WHITE, board[7][4], RESOURCES_WKING_PNG));
         board[0][3].put(new Queen(PieceColor.BLACK, board[0][3], RESOURCES_BQUEEN_PNG));
         board[7][3].put(new Queen(PieceColor.WHITE, board[7][3], RESOURCES_WQUEEN_PNG));
 
-        // Add other pieces (rooks, knights, bishops)
         board[0][0].put(new Rook(PieceColor.BLACK, board[0][0], RESOURCES_BROOK_PNG));
         board[0][7].put(new Rook(PieceColor.BLACK, board[0][7], RESOURCES_BROOK_PNG));
         board[7][0].put(new Rook(PieceColor.WHITE, board[7][0], RESOURCES_WROOK_PNG));
@@ -75,62 +199,21 @@ public class Board {
         board[7][2].put(new Bishop(PieceColor.WHITE, board[7][2], RESOURCES_WBISHOP_PNG));
         board[7][5].put(new Bishop(PieceColor.WHITE, board[7][5], RESOURCES_WBISHOP_PNG));
 
-        // Add to Bpieces and Wpieces
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 8; x++) {
-                Bpieces.add(board[y][x].getOccupyingPiece());
-                Wpieces.add(board[7 - y][x].getOccupyingPiece());
+                blackPieces.add(board[y][x].getOccupyingPiece());
+                whitePieces.add(board[7 - y][x].getOccupyingPiece());
             }
         }
     }
 
-    public Square[][] getSquareArray() {
-        return board;
-    }
-
-    public void toggleTurn() {
-        whiteTurn = !whiteTurn;
-    }
-
-    public CheckmateDetector getCheckmateDetector() {
-        return cmd;
-    }
-    public boolean getTurn() {
-        return whiteTurn;
-    }
-
-    public void capturePiece(Square square, Piece capturingPiece) {
-        Piece capturedPiece = square.getOccupyingPiece();
-        if (capturedPiece != null) {
-            if (capturedPiece.getColor() == PieceColor.BLACK) Bpieces.remove(capturedPiece);
-            else Wpieces.remove(capturedPiece);
-        }
-        square.setOccupyingPiece(capturingPiece);
-    }
-
-    public boolean isPathClear(Square from, Square to) {
-        int dx = Integer.compare(to.getPosition().getX(), from.getPosition().getX());
-        int dy = Integer.compare(to.getPosition().getY(), from.getPosition().getY());
-
-        int x = from.getPosition().getX() + dx;
-        int y = from.getPosition().getY() + dy;
-
-        while (x != to.getPosition().getX() || y != to.getPosition().getY()) {
-            if (board[x][y] != null) {
-                return false;
+    private void initializeBoardSquares() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                PieceColor color = ((x + y) % 2 == 0) ? PieceColor.WHITE : PieceColor.BLACK;
+                board[y][x] = new Square(color, x, y);
             }
-            x += dx;
-            y += dy;
         }
-        return true;
-    }
-
-    private King getWhiteKing() {
-        return (King) board[7][4].getOccupyingPiece();
-    }
-
-    private King getBlackKing() {
-        return (King) board[0][4].getOccupyingPiece();
     }
 
 }

@@ -26,8 +26,8 @@ public class PawnMove implements StrategyMove {
 
         Square[][] currentBoard = board.getSquareArray();
         Square position = pawn.getPosition();
-        int x = position.getXNum();
-        int y = position.getYNum();
+        int x = position.getX();
+        int y = position.getY();
         int color = pawn.getColor().getValue();
 
         // BLACK

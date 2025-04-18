@@ -1,103 +1,105 @@
 package model;
 
-import java.awt.*;
+import model.PieceColor.PieceColor;
 
-import javax.swing.*;
-
-@SuppressWarnings("serial")
-public class Square extends JComponent {
-    private Board b;
-
-    private final int color;
-    private Piece occupyingPiece;
-    private boolean dispPiece;
-
-    private int xNum;
-    private int yNum;
-
-    public Square(Board b, int c, int xNum, int yNum) {
-
-        this.b = b;
-        this.color = c;
-        this.dispPiece = true;
-        this.xNum = xNum;
-        this.yNum = yNum;
+import javax.swing.text.Position;
 
 
-        this.setBorder(BorderFactory.createEmptyBorder());
+public class Square {
+    public int getX() {
+        return position.x;
+    }
+    public int getY() {
+        return position.y;
     }
 
-    public int getColor() {
-        return this.color;
+    static class Position{
+        int x;
+        int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
+    public Position getPosition() {
+        return position;
+    }
+
+    private final Position position;
 
     public Piece getOccupyingPiece() {
         return occupyingPiece;
     }
 
+    public PieceColor getColor() {
+        return color;
+    }
+
+    private final PieceColor color;
+
+    public void setOccupyingPiece(Piece occupyingPiece) {
+        this.occupyingPiece = occupyingPiece;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+    }
+
+    private Piece occupyingPiece;
+
+    private boolean display = true; // should be refactored moved out to
+
+    public Square(PieceColor color, int x, int y) {
+        this.color = color;
+        this.position = new Position(x, y);
+    }
+
+    public Square(Square other){
+        this.color = other.color;
+        this.position = other.position;
+        this.display = other.display;
+    }
+
     public boolean isOccupied() {
-        return (this.occupyingPiece != null);
+        return occupyingPiece != null;
     }
 
-    public int getXNum() {
-        return this.xNum;
+    public void put(Piece piece) {
+        this.occupyingPiece = piece;
+        if (piece != null) {
+            piece.setPosition(this);
+        }
     }
 
-    public int getYNum() {
-        return this.yNum;
+  /*
+  getXNUM() {
+   */
+    /*
+       return x;
     }
-
-    public void setDisplay(boolean v) {
-        this.dispPiece = v;
-    }
-
-    public void put(Piece p) {
-        this.occupyingPiece = p;
-        p.setPosition(this);
-    }
+  */
 
     public Piece removePiece() {
-        Piece p = this.occupyingPiece;
+        Piece piece = this.occupyingPiece;
         this.occupyingPiece = null;
-        return p;
+        return piece;
     }
 
-    public void capture(Piece p) {
-        Piece k = getOccupyingPiece();
-        if (k.getColor().getValue() == 0) b.Bpieces.remove(k);
-        if (k.getColor().getValue() == 1) b.Wpieces.remove(k);
-        this.occupyingPiece = p;
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        if (this.color == 1) {
-            g.setColor(new Color(221,192,127));
-        } else {
-            g.setColor(new Color(101,67,33));
-        }
-
-        g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-
-        if(occupyingPiece != null && dispPiece) {
-            occupyingPiece.draw(g);
-        }
+    public boolean getDisplay(){
+        return display;
     }
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = prime * result + xNum;
-        result = prime * result + yNum;
-        return result;
+        return position.hashCode();
     }
 
-
-    public void setOccupyingPiece(Piece capturingPiece) {
-    }
-
-    public Component getPosition() {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Square other = (Square) obj;
+        return position.equals(other.position);
     }
 }

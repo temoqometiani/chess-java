@@ -52,7 +52,7 @@ public class GameWindow {
 
         this.board = new Board();
 
-        gameWindow.add(board, BorderLayout.CENTER);
+        gameWindow.add(gameData, BorderLayout.CENTER);
 
         gameWindow.add(buttons(), BorderLayout.SOUTH);
 

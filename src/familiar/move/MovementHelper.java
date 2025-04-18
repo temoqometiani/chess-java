@@ -25,7 +25,8 @@ public class MovementHelper {
         Square[][] currentBoard = board.getSquareArray();
 
         Square position = piece.getPosition();
-        int x = position.getXNum(), y = position.getYNum();
+        int x = position.getX();
+        int y = position.getY();
 
         for (int i=0;  i<DIAGONAL.size();  i++) {
             int currentY = y + DIAGONAL.get(i).get(0);
@@ -56,7 +57,8 @@ public class MovementHelper {
 
         Square[][] currentBoard = board.getSquareArray();
         Square position = piece.getPosition();
-        int x = position.getXNum(), y = position.getYNum();
+        int x = position.getX();
+        int y = position.getY();
         for (int i=0;  i<HORIZONTAL_VERTICAL.size();  i++) {
             int currentY = y + HORIZONTAL_VERTICAL.get(i).get(0);
             int currentX = x + HORIZONTAL_VERTICAL.get(i).get(1);

@@ -9,7 +9,7 @@ public class PieceImage {
         try {
             return ImageIO.read(PieceImage.class.getResource(path));
         } catch (IOException e) {
-            System.out.println("Could not load piece image: " + e.getMessage());
+            System.out.println("can not able to load piece image: " + e.getMessage());
             return null;
         }
     }
