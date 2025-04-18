@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controllergame;
+import controller.Controllergame;
 import model.Board;
 import model.Piece;
 import model.PieceColor.PieceColor;
