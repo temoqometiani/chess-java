@@ -1,4 +1,4 @@
 package controller;
 
-public class controllergame {
+public class Controllergame {
 }
