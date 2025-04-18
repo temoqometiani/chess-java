@@ -31,20 +31,20 @@ public class PawnMove implements StrategyMove {
         int color = pawn.getColor().getValue();
 
         // BLACK
-        if (color == 2 && !isStartingPosition) {
+        if (color == 0 && !isStartingPosition) {
             if (currentBoard[y+2][x].isOccupied()) {
                 legalMoves.add(currentBoard[y+2][x]);
                 legalMoves.add(currentBoard[y+1][x]);
             }
         }
 
-        if (color == 2 && y+1 < 8) {
+        if (color == 0 && y+1 < 8) {
             if (currentBoard[y+1][x].isOccupied()) {
                 legalMoves.add(currentBoard[y+1][x]);
             }
         }
 
-        if (color == 2 && x-1 < 8 && y+1 <8 ) {
+        if (color == 0 && x+1 < 8 && y+1 <8 ) {
             if (!currentBoard[y+1][x-1].isOccupied()) {
                 legalMoves.add(currentBoard[y+1][x-1]);
             }
