@@ -1,11 +1,11 @@
 package model;
 
 import model.PieceColor.PieceColor;
-import model.King;
+import view.GameWindow;
 
 
+import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Board {
     private final Square[][] board;
@@ -107,7 +107,7 @@ public class Board {
     private static final String RESOURCES_WPAWN_PNG = "/wpawn.png";
     private static final String RESOURCES_BPAWN_PNG = "/bpawn.png";
 
-    public Board() {
+    public Board(GameWindow gameWindow) throws IOException {
         board = new Square[8][8];
         initializeBoardSquares();
         initializePieces();
@@ -173,7 +173,7 @@ public class Board {
         return board[y][x];
     }
 
-    private void initializePieces() {
+    private void initializePieces() throws IOException {
         for (int x = 0; x < 8; x++) {
             board[1][x].put(new Pawn(PieceColor.BLACK, board[1][x], RESOURCES_BPAWN_PNG));
             board[6][x].put(new Pawn(PieceColor.WHITE, board[6][x], RESOURCES_WPAWN_PNG));

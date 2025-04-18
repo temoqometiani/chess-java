@@ -6,7 +6,7 @@ import model.Square;
 import javax.swing.*;
 import java.awt.*;
 
-public class Squareprovider extends JComponent {
+public class    Squareprovider extends JComponent {
     private Square square;
 
     public Square getSquare() {

@@ -1,12 +1,14 @@
 package view;
 
 import model.Board;
+import view.Clock;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +27,7 @@ public class GameWindow {
 
 
     public GameWindow(String blackName, String whiteName, int hh,
-            int mm, int ss) {
+                      int mm, int ss) throws IOException {
 
         blackClock = new Clock(hh, ss, mm);
         whiteClock = new Clock(hh, ss, mm);
@@ -37,7 +39,7 @@ public class GameWindow {
             Image whiteImg = ImageIO.read(getClass().getResource("wp.png"));
             gameWindow.setIconImage(whiteImg);
         } catch (Exception e) {
-            System.out.println("view.Game file wp.png not found");
+            System.out.println("controllers.Game file wp.png not found");
         }
 
         gameWindow.setLocation(100, 100);
@@ -45,12 +47,12 @@ public class GameWindow {
 
         gameWindow.setLayout(new BorderLayout(20,20));
 
-        // view.Game Data window
+
         JPanel gameData = gameDataPanel(blackName, whiteName, hh, mm, ss);
         gameData.setSize(gameData.getPreferredSize());
         gameWindow.add(gameData, BorderLayout.NORTH);
 
-        this.board = new Board();
+        this.board = new Board(this);
 
         gameWindow.add(gameData, BorderLayout.CENTER);
 
@@ -65,12 +67,16 @@ public class GameWindow {
         gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+// Helper function to create data panel
 
     private JPanel gameDataPanel(final String bn, final String wn,
-            final int hh, final int mm, final int ss) {
+                                 final int hh, final int mm, final int ss) {
 
         JPanel gameData = new JPanel();
         gameData.setLayout(new GridLayout(3,2,0,0));
+
+
+        // PLAYER NAMES
 
         JLabel w = new JLabel(wn);
         JLabel b = new JLabel(bn);
@@ -111,12 +117,16 @@ public class GameWindow {
                             int n = JOptionPane.showConfirmDialog(
                                     gameWindow,
                                     bn + " wins by time! Play a new game? \n" +
-                                    "Choosing \"No\" quits the game.",
+                                            "Choosing \"No\" quits the game.",
                                     bn + " wins!",
                                     JOptionPane.YES_NO_OPTION);
 
                             if (n == JOptionPane.YES_OPTION) {
-                                new GameWindow(bn, wn, hh, mm, ss);
+                                try {
+                                    new GameWindow(bn, wn, hh, mm, ss);
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
                                 gameWindow.dispose();
                             } else gameWindow.dispose();
                         }
@@ -129,12 +139,16 @@ public class GameWindow {
                             int n = JOptionPane.showConfirmDialog(
                                     gameWindow,
                                     wn + " wins by time! Play a new game? \n" +
-                                    "Choosing \"No\" quits the game.",
+                                            "Choosing \"No\" quits the game.",
                                     wn + " wins!",
                                     JOptionPane.YES_NO_OPTION);
 
                             if (n == JOptionPane.YES_OPTION) {
-                                new GameWindow(bn, wn, hh, mm, ss);
+                                try {
+                                    new GameWindow(bn, wn, hh, mm, ss);
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
                                 gameWindow.dispose();
                             } else gameWindow.dispose();
                         }
@@ -173,7 +187,7 @@ public class GameWindow {
                     gameWindow.dispose();
                 }
             }
-          });
+        });
 
         final JButton nGame = new JButton("New game");
 
@@ -189,7 +203,7 @@ public class GameWindow {
                     gameWindow.dispose();
                 }
             }
-          });
+        });
 
         final JButton instr = new JButton("How to play");
 
@@ -197,14 +211,14 @@ public class GameWindow {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(gameWindow,
                         "Move the chess pieces on the board by clicking\n"
-                        + "and dragging. The game will watch out for illegal\n"
-                        + "moves. You can win either by your opponent running\n"
-                        + "out of time or by checkmating your opponent.\n"
-                        + "\nGood luck, hope you enjoy the game!",
+                                + "and dragging. The game will watch out for illegal\n"
+                                + "moves. You can win either by your opponent running\n"
+                                + "out of time or by checkmating your opponent.\n"
+                                + "\nGood luck, hope you enjoy the game!",
                         "How to play",
                         JOptionPane.PLAIN_MESSAGE);
             }
-          });
+        });
 
         buttons.add(instr);
         buttons.add(nGame);
@@ -221,7 +235,7 @@ public class GameWindow {
             int n = JOptionPane.showConfirmDialog(
                     gameWindow,
                     "White wins by checkmate! Set up a new game? \n" +
-                    "Choosing \"No\" lets you look at the final situation.",
+                            "Choosing \"No\" lets you look at the final situation.",
                     "White wins!",
                     JOptionPane.YES_NO_OPTION);
 
@@ -234,7 +248,7 @@ public class GameWindow {
             int n = JOptionPane.showConfirmDialog(
                     gameWindow,
                     "Black wins by checkmate! Set up a new game? \n" +
-                    "Choosing \"No\" lets you look at the final situation.",
+                            "Choosing \"No\" lets you look at the final situation.",
                     "Black wins!",
                     JOptionPane.YES_NO_OPTION);
 

@@ -12,12 +12,14 @@ import java.awt.event.MouseAdapter;
 public class BoardProvider extends JPanel {
     private final Board chessBoard;
     private final Controllergame gameController;
-    private int currX, currY;
+    private int currX;
+    private int currY;
 
     public BoardProvider(Board board, GameWindow gameWindow) {
         chessBoard = board;
         gameController = new Controllergame(board, gameWindow);
         initializeBoard();
+        this.setVisible(true);
     }
 
     private void initializeBoard() {
@@ -42,19 +44,29 @@ public class BoardProvider extends JPanel {
         }
     }
 
-    // Accessor methods
-    public void setCurrX(int x) { currX = x; }
-    public void setCurrY(int y) { currY = y; }
-    public int getCurrX() { return currX; }
-    public int getCurrY() { return currY; }
-    public Board getChessBoard() { return chessBoard; }
-    public Controllergame getGameController() { return gameController; }
+    public void setCurrX(int x) {
+        currX = x; }
+
+    public void setCurrY(int y) {
+        currY = y; }
+
+    public int getCurrX() {
+        return currX; }
+
+    public int getCurrY() {
+        return currY; }
+
+    public Board getChessBoard() {
+        return chessBoard; }
+
+    public Controllergame getGameController() {
+        return gameController; }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         updateSquareVisibility();
-        renderDraggedPiece(g);
+        provideDraggedPiece(g);
     }
 
     private void updateSquareVisibility() {
@@ -66,9 +78,9 @@ public class BoardProvider extends JPanel {
         }
     }
 
-    private void renderDraggedPiece(Graphics g) {
+    private void provideDraggedPiece(Graphics g) {
         Piece activePiece = chessBoard.getCurrPiece();
-        if (shouldRenderPiece(activePiece)) {
+        if (shouldProvidePiece(activePiece)) {
             Image pieceImage = activePiece.getImage();
             if (pieceImage != null) {
                 g.drawImage(pieceImage, currX, currY, null);
@@ -76,7 +88,7 @@ public class BoardProvider extends JPanel {
         }
     }
 
-    private boolean shouldRenderPiece(Piece piece) {
+    private boolean shouldProvidePiece(Piece piece) {
         return piece != null &&
                 ((piece.getColor() == PieceColor.WHITE && chessBoard.isWhiteTurn()) ||
                         (piece.getColor() == PieceColor.BLACK && !chessBoard.isWhiteTurn()));

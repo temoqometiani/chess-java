@@ -8,6 +8,7 @@ import view.PieceImage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -52,7 +53,7 @@ public abstract class Piece {
 
     private MoveProviderStrategy moveExecutorStrategy;
 
-    public Piece(PieceColor color, Square initSq, String img_file) {
+    public Piece(PieceColor color, Square initSq, String img_file) throws IOException {
         this.color = color;
         this.position = initSq;
 

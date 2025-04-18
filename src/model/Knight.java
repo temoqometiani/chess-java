@@ -6,12 +6,13 @@ import familiar.StrategyMove;
 import familiar.move.KnightMove;
 import model.PieceColor.PieceColor;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Knight extends Piece {
 
-    public Knight(PieceColor color, Square initSq, String img_file) {
+    public Knight(PieceColor color, Square initSq, String img_file) throws IOException {
 
         super(color, initSq, img_file);
     }

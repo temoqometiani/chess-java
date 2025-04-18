@@ -6,11 +6,12 @@ import familiar.StrategyMove;
 import familiar.move.BishopMove;
 import model.PieceColor.PieceColor;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Bishop extends Piece {
 
-    public Bishop(PieceColor color, Square initSq, String img_file) {
+    public Bishop(PieceColor color, Square initSq, String img_file) throws IOException {
         super(color, initSq, img_file);
     }
 

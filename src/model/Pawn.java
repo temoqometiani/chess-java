@@ -6,12 +6,13 @@ import familiar.StrategyMove;
 import familiar.move.PawnMove;
 import model.PieceColor.PieceColor;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.LinkedList;
 public class Pawn extends Piece {
 
 
-    public Pawn(PieceColor color, Square initSq, String img_file) {
+    public Pawn(PieceColor color, Square initSq, String img_file) throws IOException {
         super(color, initSq, img_file);
     }
 
