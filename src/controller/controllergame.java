@@ -52,16 +52,9 @@ public class Controllergame {
         }
 
         List<Square> legalMoves = currPiece.getLegalMoves(board);
-
+        var a=legalMoves.stream().map(x->x.getPosition().toAlgebraic()).toList();
         // Move validator setup (unchanged logic)
-        DetectorHelper dh = new CheckmateDetector(board) {
-            @Override public boolean isInCheck(PieceColor color) {
-                return false; }
-            @Override public boolean isCheckMate(PieceColor color) {
-                return false; }
-            @Override public boolean isStalemate(PieceColor color) {
-                return false; }
-        };
+        DetectorHelper dh = new CheckmateDetector(board);
 
         // Determine colors (unchanged logic)
         PieceColor color = board.getTurn() ? PieceColor.BLACK : PieceColor.WHITE;

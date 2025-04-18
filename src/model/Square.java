@@ -13,7 +13,7 @@ public class Square {
         return position.y;
     }
 
-    static class Position{
+    public static class Position{
         int x;
         int y;
 
@@ -21,8 +21,15 @@ public class Square {
             this.x = x;
             this.y = y;
         }
+        public String toAlgebraic() {
+            return "" + (char) ('a' + x) + (8 - y);  // Convert y correctly as 1-based index
+        }
     }
+
+
+
     public Position getPosition() {
+
         return position;
     }
 
