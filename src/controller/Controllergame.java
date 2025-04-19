@@ -14,7 +14,7 @@ import java.util.List;
 public class Controllergame {
 
     private final Board board;
-    private final GameWindow gameWindow;
+    protected final GameWindow gameWindow;
 
     public Controllergame(Board board, GameWindow gameWindow) {
         this.board = board;
