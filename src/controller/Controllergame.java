@@ -15,7 +15,7 @@ public class Controllergame {
 
     // Fields remain exactly the same
     private final Board board;
-    protected final GameWindow gameWindow;
+    private final GameWindow gameWindow;
 
     // Constructor remains exactly the same
     public Controllergame(Board board, GameWindow gameWindow) {
@@ -52,7 +52,7 @@ public class Controllergame {
         }
 
         List<Square> legalMoves = currPiece.getLegalMoves(board);
-        //var a=legalMoves.stream().map(x->x.getPosition().toAlgebraic()).toList();
+        var a=legalMoves.stream().map(x->x.getPosition().toAlgebraic()).toList();
         // Move validator setup (unchanged logic)
         DetectorHelper dh = new CheckmateDetector(board) {
             @Override public boolean isInCheck(PieceColor color) {
